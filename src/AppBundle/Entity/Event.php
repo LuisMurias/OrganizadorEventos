@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,6 +39,7 @@ class Event
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
      */
     private $created;
@@ -45,6 +47,7 @@ class Event
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated", type="datetime")
      */
     private $updated;
@@ -52,7 +55,7 @@ class Event
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="disabled", type="datetime")
+     * @ORM\Column(name="disabled", type="datetime", nullable=true)
      */
     private $disabled;
 

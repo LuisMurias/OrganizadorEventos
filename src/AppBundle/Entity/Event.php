@@ -60,6 +60,13 @@ class Event
     private $disabled;
 
     /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     */
+    private $owner;
+    
+    /**
      * Get id
      *
      * @return integer 
@@ -182,6 +189,29 @@ class Event
     public function getDisabled()
     {
         return $this->disabled;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param User $owner
+     * @return Event
+     */
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return string 
+     */
+    public function getOwner()
+    {
+        return $this->owner;
     }
     
     /**

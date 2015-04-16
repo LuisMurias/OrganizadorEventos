@@ -35,6 +35,26 @@ class EventController extends Controller
             'entities' => $entities,
         );
     }
+    
+    /**
+     * Lists my Event entities.
+     *
+     * @Route("/menu", name="evento_menu")
+     * @Method("GET")
+     * @Template()
+     */
+    public function menuAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $events = $em->getRepository('AppBundle:Event')->findByOwner($user->getId());
+
+        return array(
+            'events' => $events,
+        );
+    }
+    
     /**
      * Creates a new Event entity.
      *
@@ -49,6 +69,9 @@ class EventController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+            $entity->setOwner($user);
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();

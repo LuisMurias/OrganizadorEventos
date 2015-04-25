@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * TaskList
@@ -12,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TaskList
 {
+    
+    public function __construct() {
+        $this->tasks = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * @var integer
      *
@@ -38,6 +44,7 @@ class TaskList
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
      */
     private $created;
@@ -45,6 +52,7 @@ class TaskList
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated", type="datetime")
      */
     private $updated;
@@ -52,7 +60,7 @@ class TaskList
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="deleted", type="datetime")
+     * @ORM\Column(name="deleted", type="datetime", nullable=true)
      */
     private $deleted;
 
@@ -67,6 +75,7 @@ class TaskList
      * @var Activity
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Activity")
+     * @ORM\Column(nullable=true)
      */
     private $activity;
     
@@ -85,6 +94,12 @@ class TaskList
      */
     private $public;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Task", mappedBy="task_list")
+     */
+    private $tasks;
 
     /**
      * Get id
@@ -301,5 +316,49 @@ class TaskList
     public function getPublic()
     {
         return $this->public;
+    }
+    
+    /**
+     * Magic method for combos
+     * 
+     * @return type string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
+    
+
+    /**
+     * Add tasks
+     *
+     * @param \AppBundle\Entity\Task $tasks
+     * @return TaskList
+     */
+    public function addTask(\AppBundle\Entity\Task $tasks)
+    {
+        $this->tasks[] = $tasks;
+
+        return $this;
+    }
+
+    /**
+     * Remove tasks
+     *
+     * @param \AppBundle\Entity\Task $tasks
+     */
+    public function removeTask(\AppBundle\Entity\Task $tasks)
+    {
+        $this->tasks->removeElement($tasks);
+    }
+
+    /**
+     * Get tasks
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTasks()
+    {
+        return $this->tasks;
     }
 }

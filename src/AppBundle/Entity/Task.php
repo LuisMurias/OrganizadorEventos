@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Task
@@ -12,6 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Task
 {
+    
+    public function __construct() {
+        $this->childrens = new ArrayCollection();
+    }
+    
     /**
      * @var integer
      *
@@ -38,6 +45,7 @@ class Task
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
      */
     private $created;
@@ -45,6 +53,7 @@ class Task
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated", type="datetime")
      */
     private $updated;
@@ -52,28 +61,21 @@ class Task
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="deleted", type="datetime")
+     * @ORM\Column(name="deleted", type="datetime", nullable=true)
      */
     private $deleted;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="completed", type="datetime")
+     * @ORM\Column(name="completed", type="datetime", nullable=true)
      */
     private $completed;
-
-    /**
-     * @var Task
-     *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Task")
-     */
-    private $parent;
-
+    
     /**
      * @var TaskList
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TaskList")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TaskList", inversedBy="tasks")
      */
     private $task_list;
     
@@ -84,6 +86,16 @@ class Task
      */
     private $owner;
 
+    /**
+     * Magic method for combos
+     * 
+     * @return type string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
+    
 
     /**
      * Get id
@@ -234,58 +246,35 @@ class Task
     }
 
     /**
-     * Set parent
+     * Set task_list
      *
-     * @param Task $parent
+     * @param \AppBundle\Entity\TaskList $taskList
      * @return Task
      */
-    public function setTask($parent)
+    public function setTaskList(\AppBundle\Entity\TaskList $taskList = null)
     {
-        $this->parent = $parent;
+        $this->task_list = $taskList;
 
         return $this;
     }
 
     /**
-     * Get parent
+     * Get task_list
      *
-     * @return string 
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
-
-    /**
-     * Set tasklist
-     *
-     * @param TaskList $task_list
-     * @return Task
-     */
-    public function setTaskList($task_list)
-    {
-        $this->tasklist = $task_list;
-
-        return $this;
-    }
-
-    /**
-     * Get tasklist
-     *
-     * @return string 
+     * @return \AppBundle\Entity\TaskList 
      */
     public function getTaskList()
     {
         return $this->task_list;
     }
-    
+
     /**
      * Set owner
      *
-     * @param User $owner
-     * @return Event
+     * @param \AppBundle\Entity\User $owner
+     * @return Task
      */
-    public function setOwner($owner)
+    public function setOwner(\AppBundle\Entity\User $owner = null)
     {
         $this->owner = $owner;
 
@@ -295,7 +284,7 @@ class Task
     /**
      * Get owner
      *
-     * @return string 
+     * @return \AppBundle\Entity\User 
      */
     public function getOwner()
     {

@@ -73,6 +73,13 @@ class Task
     private $completed;
     
     /**
+     * @var \Boolean
+     *
+     * @ORM\Column(name="checked", type="boolean", nullable=true)
+     */
+    private $checked;
+    
+    /**
      * @var TaskList
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TaskList", inversedBy="tasks")
@@ -289,5 +296,33 @@ class Task
     public function getOwner()
     {
         return $this->owner;
+    }
+
+    /**
+     * Set checked
+     *
+     * @param boolean $checked
+     * @return Task
+     */
+    public function setChecked($checked)
+    {
+        $this->checked = $checked;
+        if($checked == TRUE){
+            $this->completed = new DateTime();
+        }else{
+            $this->completed = NULL;
+        }
+        
+        return $this;
+    }
+
+    /**
+     * Get checked
+     *
+     * @return boolean 
+     */
+    public function getChecked()
+    {
+        return $this->checked;
     }
 }

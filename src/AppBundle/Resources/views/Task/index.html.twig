@@ -1,19 +1,20 @@
 {% extends 'base_dash.html.twig' %}
 
 {% block content %}
-    
     <h1>Task list</h1>
-
-        
-    <div id="tasklistcontainer">
+    <div class="col-sm-12" id="tasklistcontainer">
         {% for tasklist in tasklists %}
-        <div class="tasklist">
+        <div class="col-sm-12 tasklist">
             <h3 class="tasklist_name">{{ tasklist.name }}</h3>
             <h4 class="tasklist_description">{{ tasklist.description }}</h4>
-            <div class="tasks">
+            <div class="col-sm-offset-1 col-sm-11 tasks">
                 {% for task in tasklist.tasks %}
-                <h3 class="task_name">{{ task.name }}</h3>
-                <h4 class="task_description">{{ task.description }}</h4>
+                    <div class="task">
+                        <input type="checkbox" class="chkTask" data-taskid="{{ task.id }}" />
+                        <h3 class="task_name">{{ task.name }}</h3>
+                        <h4 class="task_description">{{ task.description }}</h4>
+                    </div>
+
                 {% endfor %}
             </div>
         </div>

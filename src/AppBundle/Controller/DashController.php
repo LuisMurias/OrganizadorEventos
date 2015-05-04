@@ -2,9 +2,13 @@
 
 namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 
 class DashController extends Controller
 {
@@ -39,4 +43,28 @@ class DashController extends Controller
         
         return $this->render('dash/index.html.twig');
     }
+    
+    
+    /**
+     * Lists all Task entities.
+     *
+     * @Route("/task", name="task")
+     * @Method("GET")
+     * @Template()
+     */
+    public function taskAction(Request $request)
+    {
+        $session = $request->getSession();
+        $event = $session->get('activeeventid');
+        
+        $em = $this->getDoctrine()->getManager();
+
+        $tasklists = $em->getRepository('AppBundle:TaskList')->findByEvent($event);
+
+        return array(
+            'tasklists' => $tasklists,
+        );
+    }
+    
+    
 }

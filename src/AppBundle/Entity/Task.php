@@ -15,10 +15,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Task
 {
     
-    public function __construct() {
-        $this->childrens = new ArrayCollection();
-    }
-    
     /**
      * @var integer
      *

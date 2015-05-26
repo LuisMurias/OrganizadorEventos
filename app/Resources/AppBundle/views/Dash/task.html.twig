@@ -1,0 +1,28 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>Task list</h1>
+                <div class="col-sm-12" id="tasklistcontainer" data-bind="foreach: taskList">
+                <div class="col-sm-12 tasklist">
+                    <h3 class="tasklist_name" data-bind="text: $data.name"></h3>
+                    <h4 class="tasklist_description" data-bind="text: $data.description"></h4>
+                    <div class="col-sm-offset-1 col-sm-11 tasks" data-bind="foreach: $data.tasks">
+                        <div class="task" data-bind="attr: { 'data-taskid': $data.id }">
+                            <input type="checkbox" class="chkTask" />
+                            <h3 class="task_name" data-bind="text: $data.name"></h3>
+                            <h4 class="task_description" data-bind="text: $data.description"></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <h1>Edit</h1>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+<script src="{{ asset('js/mv/task.js') }}"></script>
+{% endblock %}

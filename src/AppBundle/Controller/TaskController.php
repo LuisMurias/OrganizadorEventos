@@ -25,7 +25,8 @@ class TaskController extends FOSRestController
         
         $em = $this->getDoctrine()->getManager();
 
-        return $em->getRepository('AppBundle:TaskList')->findByEvent($event);
+        $result = $em->getRepository('AppBundle:TaskList')->findTaskListWithTask($event, TRUE);
+        return $result;
     }
  
 }

@@ -12,4 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class TaskListRepository extends EntityRepository
 {
+    public function findTaskListWithTask($event, $completed) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT partial tl.{id, name}, partial t.{id, name}
+                                    FROM AppBundle:TaskList tl JOIN tl.tasks t');
+//        $consulta->setParameter('ciudad', 'barcelona');
+//        $consulta->setParameter('fecha', '201X-XX-XX 00:00:00');
+        return $query->getResult();
+    }
 }

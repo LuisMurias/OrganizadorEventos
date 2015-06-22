@@ -1,6 +1,10 @@
 task:
     resource: AppBundle\Controller\TaskController
     type:     rest
+    
+event:
+    resource: AppBundle\Controller\EventController
+    type:     rest
 
 dash:
     resource: AppBundle\Controller\DashController

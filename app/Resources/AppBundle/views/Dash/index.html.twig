@@ -1,0 +1,44 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block content %}
+    <div id="rowNoEvent" class="row">
+        <div class="col-sm-12">
+            <p>Aún no tienes ningún evento. <a id="btnAddEvent" href="#">Crear uno.</a></p>
+        </div>
+    </div>
+    <div id="rowAddEvent" class="row">
+        <div class="col-xs-12">
+            <h3 class="page-header" id="lblTitle">Añadir evento</h3>
+        </div>
+        
+        {{ form(event_form) }}
+        
+        <form  name="event" role="form" id="formAddEvent" data-bind="with: event">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="event_name">Nombre:</label>
+                    <input id="event_name" name="event_name" type="text" class="form-control" required data-bind="value: $data.name">
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="event_description">Descripción:</label>
+                    <textarea id="event_description" name="event_description" class="form-control" rows="6" data-bind="value: $data.description"></textarea>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <button id="btnSaveEvent" type="button" class="btn btn-primary" data-bind="click: $root.saveEvent">Crear</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="rowEventStats" class="row">
+        <div class="col-sm-12">
+            <p>Estadisticas</p>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/mv/dash.js') }}"></script>
+{% endblock %}

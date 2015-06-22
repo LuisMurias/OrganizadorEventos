@@ -9,11 +9,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+use AppBundle\Form\EventType;
 
 class DashController extends Controller
 {
     /**
      * @Route("/dash/{eventId}", name="dash", defaults={"eventId" = NULL})
+     * @Template()
      */
     public function indexAction($eventId, Request $request)
     {
@@ -40,8 +42,13 @@ class DashController extends Controller
             $session->set('activeeventname', $event->getName());
         }
         
+        $eventForm = $this->createForm(new EventType());
+        $eventForm->add('submit', 'submit', array('label' => 'Guardar'));
         
-        return $this->render('dash/index.html.twig');
+        return array(
+            'event_form' => $eventForm->createView(),
+        );
+        //return $this->render('dash/index.html.twig');
     }
     
     
@@ -63,6 +70,25 @@ class DashController extends Controller
 
         return array(
             'tasklists' => $tasklists,
+        );
+    }
+    
+     /**
+     * Lists my Event entities.
+     *
+     * @Route("/menu", name="event_menu")
+     * @Method("GET")
+     * @Template()
+     */
+    public function menuAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $events = $em->getRepository('AppBundle:Event')->findByOwner($user->getId());
+
+        return array(
+            'events' => $events,
         );
     }
     

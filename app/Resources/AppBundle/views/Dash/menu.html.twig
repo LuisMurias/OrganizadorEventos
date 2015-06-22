@@ -2,7 +2,7 @@
     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
       {{ app.session.get('activeeventname') }} <span class="caret"></span>
     </a>
-    <ul class="dropdown-menu" role="menu">
+    <ul id="menu-event-select" class="dropdown-menu" role="menu">
         {% for event in events %}
         <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('dash', {'eventId': event.id}) }}">{{ event.name }}</a></li>
         {% endfor %}

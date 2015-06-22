@@ -15,7 +15,7 @@ class LoadEventData extends AbstractFixture implements OrderedFixtureInterface
     {
         $events = array(
             array('name' => 'Evento 1', 'desciption' => 'Descripcion primera', 'owner' => $this->getReference('user1')),
-            array('name' => 'Evento 1', 'desciption' => 'Descripcion primera', 'owner' => $this->getReference('user1')),
+            array('name' => 'Evento 2', 'desciption' => 'Descripcion segunda', 'owner' => $this->getReference('user1')),
             array('name' => 'Evento 3', 'desciption' => 'Descripcion otro usuario', 'owner' => $this->getReference('user2')),
         );
         foreach ($events as $event) {
